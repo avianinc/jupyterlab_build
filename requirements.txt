@@ -1,0 +1,14 @@
+jupyterlab==3.6.1
+jupyterlab-sos
+sos-python>=0.20.0
+ipywidgets
+openai
+matplotlib
+jupyterlab-rise<0.40.0
+pandas
+numpy
+scipy
+plotly
+scikit-learn
+nano
+wget

@@ -1,0 +1,25 @@
+# Use Miniconda base image
+FROM continuumio/miniconda3
+
+# Set the working directory in the container
+WORKDIR /usr/src/app
+
+# Install JupyterLab and SoS (Script of Scripts) kernel for multi-language support
+# Use jupyterlab 3.6.1 for sos compatbility
+# use sos-python>=0.20.0, see https://github.com/vatlab/jupyterlab-sos/issues/66
+RUN conda install -c conda-forge nodejs sos-r sos-bash jupyter-sysml-kernel python==3.10 -y \
+    && pip install jupyterlab==3.6.1 jupyterlab-sos sos-python>=0.20.0 ipywidgets openai  matplotlib jupyterlab-rise<0.40.0 \
+    && python -m sos_notebook.install
+
+RUN jupyter lab build
+
+# Make port 8888 available to the world outside this container
+EXPOSE 8888
+
+# Set the notebooks directory as the working directory
+WORKDIR /usr/src/app/notebooks
+
+# Run JupyterLab
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--allow-root", "--NotebookApp.token=''"]
+
+
